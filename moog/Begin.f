@@ -74,7 +74,7 @@ c*****open data files carried with the source code: Barklem damping
          num = num + 1
          moogpath(num:num) = '/'
       endif
-      open (nfbarklem,file='$DATADIR/Barklem.dat')
+      open (nfbarklem,file='Barklem.dat')
 
  
 c*****open data files carried with the source code: Barklem UV damping
@@ -85,7 +85,7 @@ c*****open data files carried with the source code: Barklem UV damping
          num = num + 1
          moogpath(num:num) = '/'
       endif
-      open (nfbarklemUV,file='$DATADIR/BarklemUV.dat')
+      open (nfbarklemUV,file='BarklemUV.dat')
 
 c  write a header and find the appropriate parameter file, and exit normally
       write (array,1001)
