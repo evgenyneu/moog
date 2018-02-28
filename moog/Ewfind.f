@@ -14,7 +14,6 @@ c******************************************************************************
       character*4 ion(3)
       data ion/' I  ', ' II ', ' III'/
 
-
 c*****read the parameter file
       call params
 
@@ -43,7 +42,6 @@ c*****open and read the model atmosphere
      .             fmodel,lscreen)
       call inmodel
 
-
 c*****open and read the line list file; get ready for the line calculations
       nflines = 31
       lscreen = lscreen + 2
@@ -70,7 +68,7 @@ c*****set some parameters and write header stuff to output
 c*****run single line computations once to predict the EW for each line
       do lim1=lim1line,lim2line
          call molquery
-         write (array,1001)
+C        write (array,1001)
          lscreen = lscreen + 2
 c        call prinfo (lscreen)
          write (nf2out,1001)
@@ -89,18 +87,18 @@ c        call prinfo (lscreen)
          endif
          ich = idint(charge(lim1) + 0.1)
          if (iatom .lt. 100) then
-            write (array,1003) wave1(lim1), e(lim1,1), 
-     .                         dlog10(gf(lim1)), names(iatom), 
-     .                         ion(ich), xab, 1000.*widout(lim1)
+C             write (array,1003) wave1(lim1), e(lim1,1), 
+C      .                         dlog10(gf(lim1)), names(iatom), 
+C      .                         ion(ich), xab, 1000.*widout(lim1)
             lscreen = lscreen + 2
 c           call prinfo (lscreen)
             write (nf2out,1003) wave1(lim1), e(lim1,1), 
      .                          dlog10(gf(lim1)), names(iatom), 
      .                          ion(ich) ,xab, 1000.*widout(lim1)
          else
-            write (array,1004) wave1(lim1), e(lim1,1), 
-     .                         dlog10(gf(lim1)), names(iaa), 
-     .                         names(ibb), xab, 1000.*widout(lim1)
+C             write (array,1004) wave1(lim1), e(lim1,1), 
+C      .                         dlog10(gf(lim1)), names(iaa), 
+C      .                         names(ibb), xab, 1000.*widout(lim1)
             lscreen = lscreen + 2
 c           call prinfo (lscreen)
             write (nf2out,1004) wave1(lim1), e(lim1,1), 
