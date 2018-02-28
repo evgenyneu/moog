@@ -1,0 +1,22 @@
+ewfind
+terminal 'x11'
+standard_out 'ewfind.std.out'
+summary_out 'ewfind.sum.out'
+model_in 'model.in'
+lines_in 'lines.in'
+atmosphere 0
+molecules 1
+trudamp 0
+lines 0
+flux/int 0
+damping 2
+units 0
+opacit 0
+iraf 0
+obspectrum 0
+plot 0
+opacit 0
+freeform 0
+strong 0
+histogram 0
+scat 1
