@@ -63,6 +63,7 @@ c*****or read the ionization data for an atomic species
             enddo 
          endif
       enddo
+      write (nf2out,*) '!!!!!!!!1SHAPE=',shape(const)
       if (molopt .ge. 2) 
      .   write (nf1out,1002) (amol(i),(const(j,i),j=1,6),i=1,nmol)
 
