@@ -1,3 +1,4 @@
+      include 'Sunder.f'
 C       include 'Ucalc.f'
 C       include 'Batom.f'
 
@@ -5,16 +6,15 @@ C This file is a scratchpad for debugging and running various Fortran code
 
       program debugger
         implicit real*8 (a-h,o-z)
-        include 'Atmos.com'
+C         include 'Atmos.com'
 C         include 'Quants.com'
 
         real*8 atom,result
-        integer level
+        integer iatom1, iatom2
 
-        atom = 22
-        level = 49
+        atom = 60808.000000000000 
 
-C         result = ucalc(atom,level)
+        call sunder(atom,iatom1,iatom2)
 C         print*, 'result', result
-        print*, 'tsdss', tlog(49)
+        print*, 'iatom1=', iatom1, 'iatom2=', iatom2
       end program debugger
