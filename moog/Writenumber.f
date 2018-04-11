@@ -10,7 +10,7 @@ c******************************************************************************
       integer numdec
 
 
-      lognum = alog10(abs(xnum))
+      lognum = log10(abs(xnum))
       if     (lognum .ge. 6.) then
          write (errmess,1002) 
       elseif (lognum .ge. 0.) then 

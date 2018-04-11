@@ -10,8 +10,8 @@ c******************************************************************************
 
       span = end2 - end1
       if (span .lt. 0.) span = - span
-      spanlog = alog10(span)
-      size = ifix(spanlog)
+      spanlog = log10(span)
+      size = int(spanlog)
       if (spanlog .lt. 0.) size = size - 1
       chop = spanlog - size
       if (chop .lt. 0.31) then
