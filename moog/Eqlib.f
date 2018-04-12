@@ -107,13 +107,9 @@ c*****now begin the loop that goes through all the atmosphere tau layers
 
 
 c*****calculate *xfic* and make a first guess at *xatom*                    
-
-C       write (nf2out,*) 'kev=',kev,'xatom=',xatom
-
       i = ntau + 1 - kev                                           
       lev = i
       tk = 1.38054d-16*t(i) 
-      write (nf2out,*) 'ntau=',ntau,'i=',i                                             
       do k=1,neq                                                      
          korder = iorder(k)                                             
          xfic(k) = xabund(korder)*nhtot(i)                              
@@ -128,8 +124,7 @@ C       write (nf2out,*) 'kev=',kev,'xatom=',xatom
          enddo
       endif
 
-      write (nf2out,*) 'kev=',kev,'xatom=',xatom
-      write (nf2out,*) '-----------'
+      CONTINUE FROM HERE
 
 c*****compute the number of molecules:
 c*****Here is some information about the equilibrium constants.
@@ -181,6 +176,7 @@ c        h = 6.626076E-27 erg s, and pi = 3.1415926536.
      .             (const(1,jmol)*th))))/(ne(i)**hion)
             endif
 
+C             write (nf2out,*) 'tp[-----------'
 
 c*****compute the number of ions:
          else
@@ -195,8 +191,12 @@ c*****compute the number of ions:
      .            4.825d15*u1*t(i)**1.5/ne(i)*dexp(-1.1605d4* 
      .            const(1,jmol)/t(i))*xatom(k)               
             enddo
+
+C             write (nf2out,*) 'bottom-----------'
          endif
       enddo
+
+      write (nf2out,*) 'kev=',kev
 
 
 c*****compute matrix *c*, which is the derivative of each equation with     
@@ -243,12 +243,10 @@ c*****here oscillations are damped out
          x1 = xatom(k)                                                  
          if (dabs(xcorr(k)/xatom(k)) .gt. 0.005) iflag = 1              
          xatom(k) = xatom(k) - xcorr(k)                                 
-         write (nf2out,*) 'xatom bottom'
 c*****fix element number densities which are ridiculous                     
          if (xatom(k).le.0.0 .or. xatom(k).ge.1.001*xfic(k)) then
             iflag = 1                                                   
-            xatom(k) = 1.0d-2*dabs(xatom(k)+xcorr(k))  
-            write (nf2out,*) 'xatom bottom 2'                 
+            xatom(k) = 1.0d-2*dabs(xatom(k)+xcorr(k))                   
          endif
       enddo                                                           
       if (iflag .ne. 0) go to 27                                        
