@@ -257,12 +257,10 @@ c     Note:  ph = (-b1 + dsqrt(b1*b1 - 4.0*a1*c1))/(2.0*a1)
          c1 = -pgas(i)         
          ph = (-b1/2.0/a1)+dsqrt((b1**2/(4.0*a1*a1))-(c1/a1))
          nhtot(i) = (ph+2.0*ph*ph*ah2)/(1.38054d-16*t(i))
-         if (i.eq.16) then
-            write (nf2out,*) 'b1=',b1,' c1=',c1,' ph=',ph
-         endif
+C          if (i.eq.1) then
+C             write (nf2out,*) 't=',t(i),' ah2=',ah2,' a1=',a1
+C          endif
       enddo
-
-      write (nf2out,*) 'pgas=',pgas
 
 c*****Molecular equilibrium called here.
 c     First, a default list of ions and molecules is considered. Then the 
