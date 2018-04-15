@@ -173,6 +173,17 @@ c        h = 6.626076E-27 erg s, and pi = 3.1415926536.
      .             lth)+(const(4,jmol)*(lth**2))+(const(5,jmol)*
      .             (lth**3))+(const(6,jmol)*(lth**4))-
      .             (const(1,jmol)*th))))/(ne(i)**hion)
+               if (jmol .eq. 7 .and. i .eq. 56) then
+                  write (nf2out,*) 'jmol=',jmol,'atom=',atom
+                  write (nf2out,*) 't(i)=',t(i)
+                  write (nf2out,*) ' iatom1=',iatom1, ' iatom2=',iatom2                                     
+                  write (nf2out,*) ' th=',th,' lth=',lth                                   
+                  write (nf2out,*) ' jmol=',jmol                                   
+                  write (nf2out,*) ' const(2,7)=',const(2,7)                                   
+                  write (nf2out,*) ' const(3,7)=',const(3,7)                                   
+                  write (nf2out,*) ' ne=',ne                                   
+                  write (nf2out,*) ' xmol(jmol,i)=',xmol(jmol,i)                                  
+               endif
             endif
 
 C             write (nf2out,*) 'tp[-----------'
