@@ -101,7 +101,6 @@ c*****understood, but is not explicitly contained in 'ident'.
          write (nf1out,1003) (dummy1(i),i=1,neq),(amol(i),i=1,nmol)
       endif
 
-
 c*****now begin the loop that goes through all the atmosphere tau layers
       do 21 kev=1,ntau                                                  
 
@@ -123,8 +122,6 @@ c*****calculate *xfic* and make a first guess at *xatom*
             xatom(k) = xfic(k)                                          
          enddo
       endif
-
-      CONTINUE FROM HERE
 
 c*****compute the number of molecules:
 c*****Here is some information about the equilibrium constants.
@@ -149,8 +146,10 @@ c        masses in grams (1 amu = 1.660540E-24 g) and energy in ergs
 c        (1 eV = 1.60219E-12 ergs). Also, k = 1.38066E-16 erg/K,
 c        h = 6.626076E-27 erg s, and pi = 3.1415926536.
 27    do jmol=1,nmol                                                  
-         atom = amol(jmol)                                              
+         atom = amol(jmol) 
          if (atom .ge. 100.) then
+            write (nf2out,*) 'jmol=',jmol,'atom=',atom
+            write (nf2out,*) ' i=',i,' t(i)',t(i)                                           
             if (t(i) .gt. 12000.) then
                xmol(jmol,i) = 1.0d-20
             else   
@@ -196,7 +195,7 @@ C             write (nf2out,*) 'bottom-----------'
          endif
       enddo
 
-      write (nf2out,*) 'kev=',kev
+      write (nf2out,*) 'kev=',kev,'nmol=',nmol
 
 
 c*****compute matrix *c*, which is the derivative of each equation with     
