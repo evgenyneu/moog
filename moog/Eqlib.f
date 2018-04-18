@@ -143,13 +143,11 @@ c        Kp - dissociation constant, Q - partition functions, M - masses
 c        P - partial pressures, N - number densities, T - temperature,
 c        D - dissociation energy, h - plank constant. Remember to use
 c        masses in grams (1 amu = 1.660540E-24 g) and energy in ergs
-c        (1 eV = 1.60219E-12 ergs). Also, k = 1.38066E-16 erg/K,
+c        (1 eV = 1.60219E-12 ergs). Also, k = 1.38054d-16 erg/K,
 c        h = 6.626076E-27 erg s, and pi = 3.1415926536.
 27    do jmol=1,nmol                                                  
          atom = amol(jmol) 
          if (atom .ge. 100.) then
-            write (nf2out,*) 'jmol=',jmol,'atom=',atom
-            write (nf2out,*) ' i=',i,' t(i)',t(i)                                           
             if (t(i) .gt. 12000.) then
                xmol(jmol,i) = 1.0d-20
             else   
@@ -168,7 +166,7 @@ c        h = 6.626076E-27 erg s, and pi = 3.1415926536.
                hion = 10.0*(amol(jmol) - dint(amol(jmol)))  
                th = 5040./t(i)
                lth = log10(th)
-               xmol(jmol,i) = xmol(jmol,i)*(((1.38066d-16 * t(i))**
+               xmol(jmol,i) = xmol(jmol,i)*(((1.38054d-16 * t(i))**
      .             (count-1.0))/(10.0**(const(2,jmol)+(const(3,jmol)*
      .             lth)+(const(4,jmol)*(lth**2))+(const(5,jmol)*
      .             (lth**3))+(const(6,jmol)*(lth**4))-
@@ -205,9 +203,6 @@ c*****compute the number of ions:
 C             write (nf2out,*) 'bottom-----------'
          endif
       enddo
-
-      write (nf2out,*) 'kev=',kev,'nmol=',nmol
-
 
 c*****compute matrix *c*, which is the derivative of each equation with     
 c*****respect to each atom.                                                 
