@@ -171,17 +171,6 @@ c        h = 6.626076E-27 erg s, and pi = 3.1415926536.
      .             lth)+(const(4,jmol)*(lth**2))+(const(5,jmol)*
      .             (lth**3))+(const(6,jmol)*(lth**4))-
      .             (const(1,jmol)*th))))/(ne(i)**hion)
-               if (jmol .eq. 7 .and. i .eq. 56) then
-                  write (nf2out,*) 'jmol=',jmol,'atom=',atom
-                  write (nf2out,*) 't(i)=',t(i)
-                  write (nf2out,*) ' iatom1=',iatom1, ' iatom2=',iatom2                                     
-                  write (nf2out,*) ' th=',th,' lth=',lth                                   
-                  write (nf2out,*) ' jmol=',jmol                                   
-                  write (nf2out,*) ' const(2,7)=',const(2,7)                                   
-                  write (nf2out,*) ' const(3,7)=',const(3,7)                                   
-                  write (nf2out,*) ' ne=',ne                                   
-                  write (nf2out,*) ' xmol(jmol,i)=',xmol(jmol,i)                                  
-               endif
             endif
 
 C             write (nf2out,*) 'tp[-----------'
@@ -191,14 +180,37 @@ c*****compute the number of ions:
             delt = (t(i)-t(1))/tdel                               
             m = min0(idint(delt)+2,5)                          
             delt = delt - idint(delt)                           
-             u1 = const(m,jmol) + 
+            u1 = const(m,jmol) + 
      .           (const(m+1,jmol)-const(m,jmol))*delt          
-            iatom1 = atom                                           
+            iatom1 = atom  
+            if (jmol .eq. 6 .and. i .eq. 1) then
+               write (nf2out,*) 'jmol=',jmol,'m=',m
+               write (nf2out,*) 'const(m,jmol)=',const(m,jmol)
+               write (nf2out,*) 'onst(6,2)=',const(2,6)
+            endif                                         
             do k=1,neq         
-               if (iorder(k) .eq. iatom1) xmol(jmol,i) = 
+               if (iorder(k) .eq. iatom1) then
+                  xmol(jmol,i) = 
      .            4.825d15*u1*t(i)**1.5/ne(i)*dexp(-1.1605d4* 
      .            const(1,jmol)/t(i))*xatom(k)               
+               endif
+
             enddo
+C             write (nf2out,*) 'jmol=',jmol,'i=',i,'atom=',atom
+            if (jmol .eq. 6 .and. i .eq. 1) then
+               write (nf2out,*) 'jmol=',jmol,'atom=',atom,'i=',i
+               write (nf2out,*) 'xatom=',xatom
+               write (nf2out,*) 'tdel=',tdel
+               write (nf2out,*) 't(1)=',t(1)
+               write (nf2out,*) 't(i)=',t(i)
+               write (nf2out,*) ' iatom1=',iatom1, ' iatom2=',iatom2                                     
+               write (nf2out,*) ' th=',th,' lth=',lth                                   
+               write (nf2out,*) ' jmol=',jmol                                   
+               write (nf2out,*) ' const(2,7)=',const(2,7)                                   
+               write (nf2out,*) ' const(3,7)=',const(3,7)                                   
+               write (nf2out,*) ' ne(i)=',ne(i)                                   
+               write (nf2out,*) ' xmol(jmol,i)=',xmol(jmol,i)                                  
+            endif
 
 C             write (nf2out,*) 'bottom-----------'
          endif
