@@ -1,4 +1,4 @@
-      include 'Sunder.f'
+      include 'Invert.f'
 C       include 'Ucalc.f'
 C       include 'Batom.f'
 
@@ -9,12 +9,14 @@ C This file is a scratchpad for debugging and running various Fortran code
 C         include 'Atmos.com'
 C         include 'Quants.com'
 
-        real*8 atom,result
-        integer iatom1, iatom2
+C         real*8 amol
+C         amol = 60808.0d0
+          real*8, DIMENSION(2, 2) :: array, array2
+          array = reshape((/ 4, 7, 2, 6 /), shape(array))
 
-        atom = 60808.000000000000 
-
-        call sunder(atom,iatom1,iatom2)
+          call invert(2,array,array2,2)
+C         call discov(amol,8,i2)
 C         print*, 'result', result
-        print*, 'iatom1=', iatom1, 'iatom2=', iatom2
+        print*, 'array2=', array2
+        print*, 'c=', array
       end program debugger
