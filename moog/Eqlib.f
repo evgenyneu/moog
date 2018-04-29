@@ -106,10 +106,6 @@ c*****now begin the loop that goes through all the atmosphere tau layers
 
 c*****calculate *xfic* and make a first guess at *xatom*                    
       i = ntau + 1 - kev                                           
-C       write (nf2out,*) '------------------------------'
-C       write (nf2out,*) 'i=',i
-C       write (nf2out,*) 'Before xmol(:,i)=',xmol(:,i)
-C       write (nf2out,*) ''
       lev = i
       tk = 1.38054d-16*t(i) 
       do k=1,neq                                                      
@@ -235,16 +231,6 @@ c*****'deltax' multiplied by the inverse of 'c'
          enddo
       enddo
 
-      if (i .eq. 14) then                        
-C          write (nf2out,*) 'before xatom=',xatom
-C          write (nf2out,*) 'before xcorr=',xatom
-C          write (nf2out,*) 'before xfic=',xfic
-C          write (nf2out,*) 'iorder=',iorder
-C          write (nf2out,*) 'xmol(:,14)=',xmol(:,14)
-C          write (nf2out,*) 'xfic=',xfic
-C          write (nf2out,*) 'before x1=',x1
-      endif
-
 c*****decide if another iteration is needed                                 
       iflag = 0                                                         
       do k=1,neq                                                      
@@ -259,15 +245,6 @@ c*****fix element number densities which are ridiculous
             xatom(k) = 1.0d-2*dabs(xatom(k)+xcorr(k))                   
          endif
       enddo                                                           
-C       write (nf2out,*) 'After xmol(:,i)=',xmol(:,i)
-C       write (nf2out,*) ''
-      if (i .eq. 14) then                        
-C          write (nf2out,*) 'xatom=',xatom
-C          write (nf2out,*) 'iorder=',iorder
-C          write (nf2out,*) 'xmol(:,14)=',xmol(:,14)
-C          write (nf2out,*) 'xfic=',xfic
-C          write (nf2out,*) 'iflag=',iflag
-      endif
       if (iflag .ne. 0) go to 27                                        
 
 
@@ -289,8 +266,6 @@ c*****number density for each neutral atom
 
 c*****here the big loop in tau ends
 21    continue 
-
-      write (nf2out,*) 'After xmol(:,1)=',xmol(:,1)
       return                                                            
 
 
