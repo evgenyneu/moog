@@ -63,7 +63,6 @@ c*****or read the ionization data for an atomic species
             enddo 
          endif
       enddo
-
       if (molopt .ge. 2) 
      .   write (nf1out,1002) (amol(i),(const(j,i),j=1,6),i=1,nmol)
 
@@ -101,19 +100,21 @@ c*****understood, but is not explicitly contained in 'ident'.
          write (nf1out,1003) (dummy1(i),i=1,neq),(amol(i),i=1,nmol)
       endif
 
+
 c*****now begin the loop that goes through all the atmosphere tau layers
       do 21 kev=1,ntau                                                  
+
 
 c*****calculate *xfic* and make a first guess at *xatom*                    
       i = ntau + 1 - kev                                           
       lev = i
-      tk = 1.38054d-16*t(i) 
+      tk = 1.38054d-16*t(i)                                             
       do k=1,neq                                                      
          korder = iorder(k)                                             
          xfic(k) = xabund(korder)*nhtot(i)                              
       enddo
       if (i .lt. ntau) then
-         do k=1,neq                                                   
+         do k=1,neq                                                     
             xatom(k) = xatom(k)*nhtot(i)/nhtot(i+1)                     
          enddo
       else
@@ -121,6 +122,7 @@ c*****calculate *xfic* and make a first guess at *xatom*
             xatom(k) = xfic(k)                                          
          enddo
       endif
+
 
 c*****compute the number of molecules:
 c*****Here is some information about the equilibrium constants.
@@ -142,10 +144,10 @@ c        Kp - dissociation constant, Q - partition functions, M - masses
 c        P - partial pressures, N - number densities, T - temperature,
 c        D - dissociation energy, h - plank constant. Remember to use
 c        masses in grams (1 amu = 1.660540E-24 g) and energy in ergs
-c        (1 eV = 1.60219E-12 ergs). Also, k = 1.38054d-16 erg/K,
+c        (1 eV = 1.60219E-12 ergs). Also, k = 1.38054E-16 erg/K,
 c        h = 6.626076E-27 erg s, and pi = 3.1415926536.
 27    do jmol=1,nmol                                                  
-         atom = amol(jmol) 
+         atom = amol(jmol)                                              
          if (atom .ge. 100.) then
             if (t(i) .gt. 12000.) then
                xmol(jmol,i) = 1.0d-20
@@ -172,27 +174,23 @@ c        h = 6.626076E-27 erg s, and pi = 3.1415926536.
      .             (const(1,jmol)*th))))/(ne(i)**hion)
             endif
 
-C             write (nf2out,*) 'tp[-----------'
 
 c*****compute the number of ions:
          else
             delt = (t(i)-t(1))/tdel                               
             m = min0(idint(delt)+2,5)                          
             delt = delt - idint(delt)                           
-            u1 = const(m,jmol) + 
+             u1 = const(m,jmol) + 
      .           (const(m+1,jmol)-const(m,jmol))*delt          
-            iatom1 = atom                                      
+            iatom1 = atom                                           
             do k=1,neq         
-               if (iorder(k) .eq. iatom1) then
-                  xmol(jmol,i) = 
+               if (iorder(k) .eq. iatom1) xmol(jmol,i) = 
      .            4.825d15*u1*t(i)**1.5/ne(i)*dexp(-1.1605d4* 
      .            const(1,jmol)/t(i))*xatom(k)               
-               endif
-
             enddo
-C             write (nf2out,*) 'bottom-----------'
          endif
       enddo
+
 
 c*****compute matrix *c*, which is the derivative of each equation with     
 c*****respect to each atom.                                                 
@@ -205,7 +203,7 @@ c*****respect to each atom.
          korder = iorder(k)                                             
          do kk=1,neq                                                    
             kderiv = iorder(kk)                                         
-            do 28 j=1,nmax
+            do 28 j=1,nmax                                              
                jmol = ident(k,j)                                        
                if (jmol .eq. 0) go to 28                                
                call discov(amol(jmol),kderiv,num2)                      
@@ -218,11 +216,9 @@ c*****respect to each atom.
       enddo
 
 
-
 c*****calculate array 'xcorr', the change in 'xatom'. array 'xcorr' is      
-c*****'deltax' multiplied by the inverse of 'c' 
+c*****'deltax' multiplied by the inverse of 'c'                            
       call invert (neq,c,ans,30)                                        
-
       do k=1,neq                                                      
          x1 = xcorr(k)                                                  
          xcorr(k) = 0.                                                  
@@ -230,6 +226,7 @@ c*****'deltax' multiplied by the inverse of 'c'
             xcorr(k) = xcorr(k) + ans(k,kk)*deltax(kk)                  
          enddo
       enddo
+
 
 c*****decide if another iteration is needed                                 
       iflag = 0                                                         
@@ -265,16 +262,15 @@ c*****number density for each neutral atom
 
 
 c*****here the big loop in tau ends
-21    continue 
+21    continue  
       return                                                            
 
 
 c*****format statements
 1001  format ('I do not know this molecule: ',f10.0)              
-1002  format (/'INPUT EQUILIBRIUM DATA:'/1x, 'species', 2x, 
-     .        'D0/Chi ', 3x, 'const1', 6x, 'const2', 6x,
-     .        'const3', 6x, 'const4', 6x, 'const5'/
-     .        (0pf8.1, f8.3, 1p5d12.4))
+1002  format (/'INPUT EQUILIBRIUM DATA:'/1x,'species',2x,'D0/Chi ',
+     .        3x,'const1',6x,'const2',6x,'const3',6x,'const4',6x,
+     .        'const5'/(0pf8.1,f8.3,1p5d12.4))
 1003  format (/'MOLECULAR EQUILIBRIUM SOLUTIONS:  (log partial',
      .        ' pressures listed under names)'/
      .        2x,'i',5x,'T',2x,'Pgas',8f8.1/(15x,8f8.1))
