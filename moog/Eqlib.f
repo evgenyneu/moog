@@ -230,6 +230,7 @@ c*****'deltax' multiplied by the inverse of 'c'
 
 c*****decide if another iteration is needed                                 
       iflag = 0                                                         
+
       do k=1,neq                                                      
 c*****here oscillations are damped out                                      
          if (x1*xcorr(k) .lt. -0.5*x1**2) xcorr(k) = 0.5*xcorr(k)       
@@ -241,7 +242,9 @@ c*****fix element number densities which are ridiculous
             iflag = 1                                                   
             xatom(k) = 1.0d-2*dabs(xatom(k)+xcorr(k))                   
          endif
-      enddo                                                           
+      enddo
+
+
       if (iflag .ne. 0) go to 27                                        
 
 
@@ -263,6 +266,8 @@ c*****number density for each neutral atom
 
 c*****here the big loop in tau ends
 21    continue  
+
+      write (nf2out,*) 'xamol(:,1)=',xamol(:,1)                             
       return                                                            
 
 
