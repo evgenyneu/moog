@@ -14,7 +14,9 @@ c******************************************************************************
       real*8 xfic(30), xcorr(30), deltax(30), c(30,30), ans(30,30)      
       real*8 uu(2)
       real*8 lth
+      real*8 partial_pressures(30)
       integer ident(30,110)
+      molopt = 3
 
 
 c*****clear the arrays 
@@ -244,30 +246,35 @@ c*****fix element number densities which are ridiculous
          endif
       enddo
 
-
       if (iflag .ne. 0) go to 27                                        
-
 
 c*****print out atomic and molecular partial pressures. *xamol* is the      
 c*****number density for each neutral atom                                  
       do k=1,neq                                                     
-         xamol(k,i) = xatom(k)                                          
+         xamol(k,i) = xatom(k) 
+C          partial_pressures(k) = xatom(k)*tk                                         
          patom(k) = dlog10(xatom(k)*tk)                                 
       enddo
       do jmol=1,nmol                                                 
+C          partial_pressures(jmol) = xmol(jmol,i)*tk                          
+         partial_pressures(jmol) = xmol(jmol,i)*tk                          
          pmol(jmol) = dlog10(xmol(jmol,i)*tk)                           
       enddo
-      if (molopt .ge. 2) then
-         pglog = dlog10(pgas(lev))
-         write (nf1out,1004) lev,int(t(lev)+0.001),pglog,
-     .                       (patom(i),i=1,neq), (pmol(i),i=1,nmol)
-      endif
+
+
+C       if (molopt .ge. 2) then
+C          pglog = dlog10(pgas(lev))
+C          write (nf1out,1004) lev,int(t(lev)+0.001),pglog,
+C      .                       (patom(i),i=1,neq), (pmol(i),i=1,nmol)
+C       endif
+
+C       write (nf1out,1005) lev,patom(1)
+      write (nf1out,1005) lev,partial_pressures(18)
+
 
 
 c*****here the big loop in tau ends
 21    continue  
-
-      write (nf2out,*) 'xamol(:,1)=',xamol(:,1)                             
       return                                                            
 
 
@@ -280,6 +287,7 @@ c*****format statements
      .        ' pressures listed under names)'/
      .        2x,'i',5x,'T',2x,'Pgas',8f8.1/(15x,8f8.1))
 1004  format (i3,i6,f6.2,8f8.2/(15x,8f8.2))
+1005  format (i3,E30.20)
 
       end                                                               
 
